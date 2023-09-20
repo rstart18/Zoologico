@@ -19,11 +19,8 @@ public class UserDetailsImpl implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
 
-        // Aquí, asumimos que el objeto UserEntity tiene un método getRole() que devuelve el rol del usuario.
-        // Debes ajustarlo según la estructura de tu objeto UserEntity.
         String userRole = user.getRole();
 
-        // Añadir el rol del usuario como GrantedAuthority.
         authorities.add(new SimpleGrantedAuthority("ROLE_".concat(userRole)));
 
         return authorities;
