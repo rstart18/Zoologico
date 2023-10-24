@@ -16,8 +16,8 @@ import java.util.List;
 public class ZoneDTO {
     private Long id;
 
-    @NotNull(message = "Campo requerido.")
-    @NotBlank(message = "Campo vacío.")
+    @NotNull(message = "El campo name es requerido.")
+    @NotBlank(message = "El campo name se encuentra vacío.")
     private String name;
 
     private List<SpeciesEntity> zones;

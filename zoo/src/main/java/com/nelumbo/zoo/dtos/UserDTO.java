@@ -13,17 +13,17 @@ import lombok.*;
 public class UserDTO {
     private Long id;
 
-    @NotNull(message = "Campo requerido.")
-    @NotBlank(message = "Campo vacío.")
+    @NotNull(message = "El campo name es requerido.")
+    @NotBlank(message = "El campo name se encuentra vacío.")
     private String name;
-    @NotNull(message = "Campo requerido.")
-    @NotBlank(message = "Campo vacío.")
+    @NotNull(message = "El campo email es requerido.")
+    @NotBlank(message = "El campo email se encuentra vacío.")
     private String email;
-    @NotNull(message = "Campo requerido.")
-    @NotBlank(message = "Campo vacío.")
+    @NotNull(message = "El campo pass es requerido.")
+    @NotBlank(message = "El campo pass se encuentra vacío.")
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String pass;
-    @NotNull(message = "Campo requerido.")
-    @NotBlank(message = "Campo vacío.")
+    @NotNull(message = "El campo role es requerido.")
+    @NotBlank(message = "El campo role se encuentra vacío.")
     private String role;
 }

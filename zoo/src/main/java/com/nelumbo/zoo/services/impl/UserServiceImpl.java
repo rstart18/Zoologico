@@ -34,10 +34,6 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     public UserDTO saveUser(UserDTO userDTO) {
-        if (isNullOrEmpty(userDTO.getName()) || isNullOrEmpty(userDTO.getEmail()) || isNullOrEmpty(userDTO.getPass())
-         || isNullOrEmpty(userDTO.getRole())) {
-            throw new IllegalArgumentException("Los campos nombre, email, contraseña y rol son requeridos.");
-        }
 
         Optional<UserEntity> existingUser = userRepository.findOneByEmail(userDTO.getEmail());
         if (existingUser.isPresent()) {

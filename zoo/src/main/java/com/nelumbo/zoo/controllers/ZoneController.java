@@ -1,9 +1,11 @@
 package com.nelumbo.zoo.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nelumbo.zoo.dtos.ZoneAnimalCountDTO;
 import com.nelumbo.zoo.dtos.ZoneDTO;
 import com.nelumbo.zoo.entities.ZoneEntity;
 import com.nelumbo.zoo.services.ZoneService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +17,15 @@ import java.util.Map;
 @RestController
 @RequestMapping("/zone")
 public class ZoneController {
+
+    private final ObjectMapper objectMapper;
     @Autowired
     ZoneService zoneService;
+
+    @Autowired
+    public ZoneController(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
 
     @GetMapping()
     @PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE')")
@@ -24,7 +33,7 @@ public class ZoneController {
 
     @PostMapping()
     @PreAuthorize("hasRole('ADMIN')")
-    public ZoneDTO saveZone(@RequestBody ZoneDTO zone) { return this.zoneService.saveZone(zone); }
+    public ZoneDTO saveZone(@RequestBody @Valid ZoneDTO zone) { return this.zoneService.saveZone(zone); }
 
     @DeleteMapping(path = "/{id}")
     @PreAuthorize("hasRole('ADMIN')")

@@ -3,6 +3,7 @@ package com.nelumbo.zoo.controllers;
 import com.nelumbo.zoo.dtos.UserDTO;
 import com.nelumbo.zoo.dtos.responses.MessageDTO;
 import com.nelumbo.zoo.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,7 +25,7 @@ public class UserController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping()
-    public UserDTO saveUser(@RequestBody UserDTO userDTO) {
+    public UserDTO saveUser(@RequestBody @Valid UserDTO userDTO) {
         return userService.saveUser(userDTO);
     }
 
