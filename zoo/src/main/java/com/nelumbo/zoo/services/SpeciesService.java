@@ -11,9 +11,13 @@ import java.util.Map;
 public interface SpeciesService {
     ArrayList<SpeciesDTO> getSpecies();
 
+    SpeciesDTO getSpeciesById(Long id);
+
     SpeciesDTO saveASpecies (SpeciesDTO speciesDTO);
 
-    String deleteSpecies(Long id);
+    SpeciesDTO updateSpecies(Long id, SpeciesDTO updatedSpecies);
+
+    void deleteSpecies(Long id);
 
     Map<SpeciesEntity, Long> countAnimalsBySpecies();
 

@@ -3,21 +3,22 @@ package com.nelumbo.zoo.services.impl;
 import com.nelumbo.zoo.dtos.SpeciesDTO;
 import com.nelumbo.zoo.entities.SpeciesEntity;
 import com.nelumbo.zoo.repositories.SpeciesRepository;
+import com.nelumbo.zoo.repositories.ZoneRepository;
 import com.nelumbo.zoo.services.AnimalService;
 import com.nelumbo.zoo.services.SpeciesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class SpeciesServiceImpl implements SpeciesService {
     @Autowired
     SpeciesRepository speciesRepository;
+
+    @Autowired
+    ZoneRepository zoneRepository;
 
     @Autowired
     AnimalService animalService;
@@ -37,7 +38,31 @@ public class SpeciesServiceImpl implements SpeciesService {
         return (ArrayList<SpeciesDTO>) speciesDTOs;
     }
 
+    public SpeciesDTO getSpeciesById(Long id) {
+        Optional<SpeciesEntity> speciesEntityOptional = speciesRepository.findById(id);
+
+        if (speciesEntityOptional.isPresent()) {
+            SpeciesEntity speciesEntity = speciesEntityOptional.get();
+
+            return SpeciesDTO.builder()
+                    .id(speciesEntity.getId())
+                    .name(speciesEntity.getName())
+                    .zoneId(speciesEntity.getZoneId())
+                    .animals(speciesEntity.getAnimals())
+                    .build();
+        } else {
+            throw new NoSuchElementException("Especie no encontrada.");
+        }
+    }
+
     public SpeciesDTO saveASpecies (SpeciesDTO speciesDTO) {
+        if (speciesRepository.existsByName(speciesDTO.getName())) {
+            throw new IllegalArgumentException("Una especie ya esta registrada con ese nombre.");
+        }
+        if (!zoneRepository.existsById(speciesDTO.getZoneId())) {
+            throw new IllegalArgumentException("El campo zoneId especificado no se ha encontrado.");
+        }
+
         SpeciesEntity speciesEntity = SpeciesEntity
                 .builder()
                 .id(speciesDTO.getId())
@@ -50,22 +75,43 @@ public class SpeciesServiceImpl implements SpeciesService {
         return speciesDTO;
     }
 
-    public String deleteSpecies(Long id) {
+    public SpeciesDTO updateSpecies(Long id, SpeciesDTO updatedSpecies) {
+        Optional<SpeciesEntity> existingSpeciesOptional = speciesRepository.findById(id);
+
+        if (existingSpeciesOptional.isPresent()) {
+            SpeciesEntity existingSpecies = existingSpeciesOptional.get();
+
+            existingSpecies.setName(updatedSpecies.getName());
+            existingSpecies.setZoneId(updatedSpecies.getZoneId());
+            existingSpecies.setAnimals(updatedSpecies.getAnimals());
+
+            speciesRepository.save(existingSpecies);
+
+            return SpeciesDTO.builder()
+                    .id(existingSpecies.getId())
+                    .name(existingSpecies.getName())
+                    .zoneId(existingSpecies.getZoneId())
+                    .animals(existingSpecies.getAnimals())
+                    .build();
+        } else {
+            throw new NoSuchElementException("Especie no encontrada.");
+        }
+    }
+
+    public void deleteSpecies(Long id) {
+        SpeciesEntity speciesToDelete = speciesRepository.findById(id).orElse(null);
+
+        if (speciesToDelete == null) {
+            throw new NoSuchElementException("Especie no encontrada.");
+        }
+
+        if (animalService.areAnimalsAssociatedWithSpecies(id)) {
+            throw new IllegalStateException("La especie tiene animales asociados.");
+        }
         try {
-            SpeciesEntity speciesToDelete = speciesRepository.findById(id).orElse(null);
-
-            if (speciesToDelete == null) {
-                return "No existe la especie.";
-            }
-
-            if (animalService.areAnimalsAssociatedWithSpecies(id)) {
-                return "La especie tiene animales asociados.";
-            }
-
             speciesRepository.deleteById(id);
-            return "";
         } catch (Exception err) {
-            return err.toString();
+            throw new RuntimeException("Error al eliminar la especie: " + err.toString());
         }
     }
 

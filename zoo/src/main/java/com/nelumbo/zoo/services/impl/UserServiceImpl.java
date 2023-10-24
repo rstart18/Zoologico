@@ -10,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -30,6 +31,22 @@ public class UserServiceImpl implements UserService {
                                 .build()
                 )
                 .collect(Collectors.toList());
+    }
+
+    public UserDTO getUserById(Long userId) {
+        Optional<UserEntity> userEntity = userRepository.findById(userId);
+
+        if (userEntity.isPresent()) {
+            UserEntity user = userEntity.get();
+            return UserDTO.builder()
+                    .id(user.getId())
+                    .name(user.getName())
+                    .email(user.getEmail())
+                    .role(user.getRole())
+                    .build();
+        } else {
+            throw new NoSuchElementException("Usuario no encontrado.");
+        }
     }
 
     @Transactional
@@ -53,10 +70,45 @@ public class UserServiceImpl implements UserService {
         return userDTO;
     }
 
-    public boolean deleteUser(Long id) {
+    @Transactional
+    public UserDTO updateUser(Long id, UserDTO updatedUser) {
+        Optional<UserEntity> existingUser = userRepository.findOneByEmail(updatedUser.getEmail());
+
+        if (existingUser.isPresent() && !existingUser.get().getId().equals(id)) {
+            throw new IllegalArgumentException("El correo electrónico con que desea registrar ya está en uso.");
+        }
+
+        Optional<UserEntity> userEntityOptional = userRepository.findById(id);
+
+        if (userEntityOptional.isPresent()) {
+            UserEntity userEntity = userEntityOptional.get();
+            userEntity.setName(updatedUser.getName());
+            userEntity.setEmail(updatedUser.getEmail());
+            userEntity.setRole(updatedUser.getRole());
+
+            if (updatedUser.getPass() != null && !updatedUser.getPass().isEmpty()) {
+                String hashedPassword = new BCryptPasswordEncoder().encode(updatedUser.getPass());
+                userEntity.setPass(hashedPassword);
+            }
+
+            userRepository.save(userEntity);
+
+            return UserDTO.builder()
+                    .id(userEntity.getId())
+                    .name(userEntity.getName())
+                    .email(userEntity.getEmail())
+                    .role(userEntity.getRole())
+                    .build();
+        } else {
+            throw new NoSuchElementException("Usuario no encontrado.");
+        }
+    }
+
+
+    public void deleteUser(Long id) {
         UserEntity userToDelete = userRepository.findById(id).orElse(null);
         if (userToDelete == null) {
-            return false;
+            throw new NoSuchElementException("Usuario no encontrado.");
         }
         if ("ADMIN".equals(userToDelete.getRole())) {
             long adminCount = userRepository.countByRole("ADMIN");
@@ -67,9 +119,8 @@ public class UserServiceImpl implements UserService {
         }
         try {
             userRepository.deleteById(id);
-            return true;
         } catch (Exception err) {
-            return false;
+            throw new RuntimeException("Error al eliminar el usuario: " + err.toString());
         }
     }
 

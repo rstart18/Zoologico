@@ -23,6 +23,12 @@ public class UserController {
         return userService.getUsers();
     }
 
+    @GetMapping(path = "/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public UserDTO getUserById(@PathVariable("id") Long id) {
+        return userService.getUserById(id);
+    }
+
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping()
     public UserDTO saveUser(@RequestBody @Valid UserDTO userDTO) {
@@ -30,12 +36,15 @@ public class UserController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping(path = "/{id}")
+    UserDTO updateUser(@PathVariable("id") Long id, @RequestBody @Valid UserDTO updatedUser) {
+        return userService.updateUser(id, updatedUser);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUserById(@PathVariable("id") Long id) {
-        boolean ok = this.userService.deleteUser(id);
-        if (!ok) {
-            throw new IllegalArgumentException("No se ha podido eliminar el usuario.");
-        }
+        this.userService.deleteUser(id);
     }
 }
