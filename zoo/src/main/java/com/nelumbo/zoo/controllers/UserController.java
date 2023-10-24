@@ -1,8 +1,10 @@
 package com.nelumbo.zoo.controllers;
 
 import com.nelumbo.zoo.dtos.UserDTO;
+import com.nelumbo.zoo.dtos.responses.MessageDTO;
 import com.nelumbo.zoo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,12 +30,11 @@ public class UserController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(path = "/{id}")
-    public String deleteUserById(@PathVariable("id") Long id) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteUserById(@PathVariable("id") Long id) {
         boolean ok = this.userService.deleteUser(id);
-        if (ok) {
-            return "Se ha eliminado el usuario satisfactoriamente.";
-        } else {
-            return "No se ha podido eliminar el usuario.";
+        if (!ok) {
+            throw new IllegalArgumentException("No se ha podido eliminar el usuario.");
         }
     }
 }
