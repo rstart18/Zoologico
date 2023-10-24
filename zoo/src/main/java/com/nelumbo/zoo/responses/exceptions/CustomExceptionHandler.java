@@ -2,6 +2,7 @@ package com.nelumbo.zoo.responses.exceptions;
 
 import com.nelumbo.zoo.dtos.responses.MessageDTO;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -15,5 +16,13 @@ public class CustomExceptionHandler {
     @ResponseBody
     public MessageDTO handleIllegalArgumentException(IllegalArgumentException ex) {
         return new MessageDTO(ex.getMessage());
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public MessageDTO handleValidationException(MethodArgumentNotValidException ex) {
+        String errorMessage = ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
+        return new MessageDTO(errorMessage);
     }
 }
