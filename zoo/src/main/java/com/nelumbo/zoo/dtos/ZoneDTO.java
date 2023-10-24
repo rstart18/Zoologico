@@ -1,5 +1,6 @@
 package com.nelumbo.zoo.dtos;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.nelumbo.zoo.entities.AnimalEntity;
 import com.nelumbo.zoo.entities.SpeciesEntity;
 import jakarta.validation.constraints.NotBlank;
@@ -20,6 +21,8 @@ public class ZoneDTO {
     @NotBlank(message = "El campo name se encuentra vacío.")
     private String name;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<SpeciesEntity> zones;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<AnimalEntity> animals;
 }

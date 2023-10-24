@@ -7,6 +7,7 @@ import com.nelumbo.zoo.entities.ZoneEntity;
 import com.nelumbo.zoo.services.ZoneService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,19 +32,25 @@ public class ZoneController {
     @PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE')")
     public ArrayList<ZoneDTO> getZones() { return zoneService.getZones(); }
 
+    @GetMapping(path = "/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE')")
+    public ZoneDTO getZoneById(@PathVariable("id") Long id) { return zoneService.getZoneById(id); }
+
     @PostMapping()
     @PreAuthorize("hasRole('ADMIN')")
     public ZoneDTO saveZone(@RequestBody @Valid ZoneDTO zone) { return this.zoneService.saveZone(zone); }
 
+    @PutMapping(path = "/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ZoneDTO updateZone(@PathVariable("id") Long id, @RequestBody @Valid ZoneDTO updatedZone) {
+        return zoneService.updateZone(id, updatedZone);
+    }
+
     @DeleteMapping(path = "/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public String deleteZoneById(@PathVariable("id") Long id) {
-        String ok = this.zoneService.deleteZone(id);
-        if (ok.isEmpty()) {
-            return "Se ha eliminado la zona satisfactoriamente.";
-        } else {
-            return "No se ha podido eliminar la zona: " + ok;
-        }
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteZoneById(@PathVariable("id") Long id) {
+        this.zoneService.deleteZone(id);
     }
 
     @GetMapping("/animal-count")

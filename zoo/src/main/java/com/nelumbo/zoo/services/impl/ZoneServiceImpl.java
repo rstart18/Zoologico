@@ -8,9 +8,7 @@ import com.nelumbo.zoo.services.ZoneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,6 +34,25 @@ public class ZoneServiceImpl implements ZoneService {
         return (ArrayList<ZoneDTO>) zoneDTOs;
     }
 
+    public ZoneDTO getZoneById(Long id) {
+        List<ZoneEntity> zoneEntities = (List<ZoneEntity>) zoneRepository.findAll();
+        Optional<ZoneEntity> zoneEntityOptional = zoneEntities.stream()
+                .filter(zoneEntity -> zoneEntity.getId().equals(id))
+                .findFirst();
+
+        if (zoneEntityOptional.isPresent()) {
+            ZoneEntity zoneEntity = zoneEntityOptional.get();
+            return ZoneDTO.builder()
+                    .id(zoneEntity.getId())
+                    .name(zoneEntity.getName())
+                    .zones(zoneEntity.getZones())
+                    .animals(zoneEntity.getAnimals())
+                    .build();
+        } else {
+            throw new NoSuchElementException("Zona no encontrada.");
+        }
+    }
+
     public ZoneDTO saveZone (ZoneDTO zoneDTO) {
         ZoneEntity zoneEntity = ZoneEntity
                 .builder()
@@ -49,22 +66,40 @@ public class ZoneServiceImpl implements ZoneService {
         return zoneDTO;
     }
 
-    public String deleteZone (Long id) {
+    public ZoneDTO updateZone(Long id, ZoneDTO updatedZone) {
+        Optional<ZoneEntity> optionalZone = zoneRepository.findById(id);
+
+        if (optionalZone.isPresent()) {
+            ZoneEntity existingZone = optionalZone.get();
+
+            existingZone.setName(updatedZone.getName());
+
+            ZoneEntity updatedZoneEntity = zoneRepository.save(existingZone);
+
+            return ZoneDTO.builder()
+                    .id(updatedZoneEntity.getId())
+                    .name(updatedZoneEntity.getName())
+                    .build();
+        } else {
+            throw new NoSuchElementException("Zona no encontrada.");
+        }
+    }
+
+    public void deleteZone(Long id) {
+        ZoneEntity zoneToDelete = zoneRepository.findById(id).orElse(null);
+
+        if (zoneToDelete == null) {
+            throw new NoSuchElementException("Zona no encontrada.");
+        }
+
+        if (zoneToDelete.getAnimals() != null && !zoneToDelete.getAnimals().isEmpty()) {
+            throw new IllegalStateException("La zona contiene animales.");
+        }
+
         try {
-            ZoneEntity zoneToDelete = zoneRepository.findById(id).orElse(null);
-
-            if (zoneToDelete == null) {
-                return "No existe la zona.";
-            }
-
-            if (zoneToDelete.getAnimals() != null && !zoneToDelete.getAnimals().isEmpty()) {
-                return "La zona contiene animales.";
-            }
-
             zoneRepository.deleteById(id);
-            return "";
         } catch (Exception err) {
-            return err.toString();
+            throw new RuntimeException("Error al eliminar la zona: " + err.toString());
         }
     }
 

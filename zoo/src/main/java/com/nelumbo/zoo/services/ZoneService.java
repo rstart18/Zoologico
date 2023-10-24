@@ -11,9 +11,13 @@ import java.util.Map;
 public interface ZoneService {
     ArrayList<ZoneDTO> getZones();
 
+    ZoneDTO getZoneById(Long id);
+
     ZoneDTO saveZone (ZoneDTO zoneDTO);
 
-    String deleteZone (Long id);
+    ZoneDTO updateZone (Long id, ZoneDTO updatedZone);
+
+    void deleteZone (Long id);
 
     Map<ZoneEntity, Long> countAnimalsByZone();
 
