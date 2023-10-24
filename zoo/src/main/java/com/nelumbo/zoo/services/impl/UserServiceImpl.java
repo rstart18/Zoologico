@@ -36,12 +36,12 @@ public class UserServiceImpl implements UserService {
     public UserDTO saveUser(UserDTO userDTO) {
         if (isNullOrEmpty(userDTO.getName()) || isNullOrEmpty(userDTO.getEmail()) || isNullOrEmpty(userDTO.getPass())
          || isNullOrEmpty(userDTO.getRole())) {
-            throw new IllegalArgumentException("Los campos 'name', 'email', 'pass' y 'role' son requeridos.");
+            throw new IllegalArgumentException("Los campos nombre, email, contraseña y rol son requeridos.");
         }
 
         Optional<UserEntity> existingUser = userRepository.findOneByEmail(userDTO.getEmail());
         if (existingUser.isPresent()) {
-            throw new IllegalArgumentException("El correo electrónico ya está en uso.");
+            throw new IllegalArgumentException("El correo electrónico con que desea registrar ya está en uso.");
         }
 
         UserEntity userEntity = UserEntity
