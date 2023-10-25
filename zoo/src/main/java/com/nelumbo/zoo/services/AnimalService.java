@@ -17,7 +17,11 @@ public interface AnimalService {
 
     ArrayList<AnimalDTO> getAnimals();
 
+    AnimalDTO getAnimalById(Long id);
+
     AnimalDTO saveAnimal (AnimalDTO animalDTO);
+
+    AnimalDTO updateAnimal(Long id, AnimalDTO updatedAnimal);
 
     boolean deleteAnimal (Long id);
 
