@@ -1,6 +1,7 @@
 package com.nelumbo.zoo.services.impl;
 
 import com.nelumbo.zoo.dtos.AnimalDTO;
+import com.nelumbo.zoo.dtos.CustomAnimalDTO;
 import com.nelumbo.zoo.entities.AnimalEntity;
 import com.nelumbo.zoo.entities.SpeciesEntity;
 import com.nelumbo.zoo.entities.ZoneEntity;
@@ -12,10 +13,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.time.*;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,6 +27,7 @@ public class AnimalServiceImpl implements AnimalService {
 
     @Autowired
     SpeciesRepository speciesRepository;
+
 
     public Long countAnimalsBySpecies(long zoneId) { return countAnimalsInZone(zoneId); }
 
@@ -73,6 +73,33 @@ public class AnimalServiceImpl implements AnimalService {
         } else {
             throw new NoSuchElementException("Animal no encontrado.");
         }
+    }
+
+    public List<CustomAnimalDTO> getAnimalsByRegistrationDate(LocalDate registrationDate) {
+
+        LocalDateTime startOfDay = registrationDate.atStartOfDay();
+        LocalDateTime endOfDay = registrationDate.atTime(LocalTime.MAX);
+
+        List<AnimalEntity> animalEntities = animalRepository.findByDateBetween(startOfDay, endOfDay);
+
+        List<CustomAnimalDTO> customAnimalDTOs = new ArrayList<>();
+
+        for (AnimalEntity animalEntity : animalEntities) {
+            SpeciesEntity speciesEntity = speciesRepository.findById(animalEntity.getSpeciesId()).orElse(
+                    new SpeciesEntity().builder().id(-1L).name(null).build());
+            ZoneEntity zoneEntity = zoneRepository.findById(animalEntity.getZoneId()).orElse(
+                    new ZoneEntity().builder().id(-1L).name(null).build());
+
+            CustomAnimalDTO customAnimalDTO = CustomAnimalDTO.builder()
+                    .animal(animalEntity.getName())
+                    .species(speciesEntity.getName())
+                    .zone(zoneEntity.getName())
+                    .build();
+
+            customAnimalDTOs.add(customAnimalDTO);
+        }
+
+        return customAnimalDTOs;
     }
 
     public AnimalDTO saveAnimal(AnimalDTO animalDTO) {
@@ -132,16 +159,17 @@ public class AnimalServiceImpl implements AnimalService {
                     .comments(animalEntity.getComments())
                     .build();
         } else {
-            throw new NoSuchElementException("Animal no encontrado");
+            throw new NoSuchElementException("Animal no encontrado.");
         }
     }
 
-    public boolean deleteAnimal (Long id) {
-        try {
+    public void deleteAnimal (Long id) {
+        Optional<AnimalEntity> animalEntityOptional = animalRepository.findById(id);
+
+        if (animalEntityOptional.isPresent()) {
             animalRepository.deleteById(id);
-            return true;
-        } catch (Exception err) {
-            return false;
+        } else {
+            throw new NoSuchElementException("Animal no encontrado.");
         }
     }
 
@@ -152,6 +180,7 @@ public class AnimalServiceImpl implements AnimalService {
                 .name("Arto")
                 .speciesId(1L)
                 .zoneId(1L)
+                .date(LocalDateTime.now())
                 .build();
 
         AnimalEntity animal2 = AnimalEntity
@@ -160,6 +189,7 @@ public class AnimalServiceImpl implements AnimalService {
                 .name("Ana")
                 .speciesId(2L)
                 .zoneId(1L)
+                .date(LocalDateTime.now())
                 .build();
 
         animalRepository.save(animal1);

@@ -17,6 +17,7 @@ public class CustomExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     public MessageDTO handleIllegalArgumentException(IllegalArgumentException ex) {
+        ex.printStackTrace();
         return new MessageDTO(ex.getMessage());
     }
 
@@ -24,6 +25,7 @@ public class CustomExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     public MessageDTO handleValidationException(MethodArgumentNotValidException ex) {
+        ex.printStackTrace();
         String errorMessage = ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
         return new MessageDTO(errorMessage);
     }
@@ -32,6 +34,7 @@ public class CustomExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ResponseBody
     public MessageDTO handleNoSuchElementException(NoSuchElementException ex) {
+        ex.printStackTrace();
         return new MessageDTO(ex.getMessage());
     }
 

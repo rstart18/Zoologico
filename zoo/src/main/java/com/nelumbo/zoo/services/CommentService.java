@@ -10,7 +10,13 @@ import java.util.List;
 public interface CommentService {
     List<CommentDTO> getComments();
 
+    List<CommentDTO> getCommentsByAnimalId(Long animalId);
+
     CommentDTO saveComment (CommentDTO commentDTO);
+
+    CommentDTO updateComment(Long commentId, CommentDTO updatedComment);
+
+    void deleteComment(Long commentId);
 
     List<CommentEntity> getCommentsWithReplies();
 

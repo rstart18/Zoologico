@@ -1,9 +1,16 @@
 package com.nelumbo.zoo.entities;
 
+import com.nelumbo.zoo.repositories.SpeciesRepository;
+import com.nelumbo.zoo.repositories.ZoneRepository;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @NoArgsConstructor
@@ -20,6 +27,9 @@ public class AnimalEntity {
     private Long id;
 
     private String name;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime date;
 
     @Column(name = "species_id")
     private Long speciesId;

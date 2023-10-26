@@ -7,8 +7,14 @@ import java.util.List;
 
 @Service
 public interface ReplieService {
-    List<ReplieDTO> getComments();
+    List<ReplieDTO> getReplies();
 
-    ReplieDTO saveResponse (ReplieDTO replieDTO);
+    List<ReplieDTO> getRepliesByCommentId(Long commentId);
+
+    ReplieDTO saveReplie (ReplieDTO replieDTO);
+
+    ReplieDTO updateReplie(Long replieId, ReplieDTO updatedReplie);
+
+    void deleteReplie(Long replieId);
 
 }
