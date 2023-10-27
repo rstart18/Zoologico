@@ -12,17 +12,27 @@
 				{
 					"name": "Obtener Usuarios",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwZWRyb0BtYWlsLmNvbSIsImV4cCI6MTY5ODI0NTE4NCwicm9sZSI6IkFETUlOIiwibmFtZSI6InBlZHJvIn0.lQuPWYhxVQcFC8tWB6ZBq6gzTIlyOT_gMwi7xDIdscM",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/login",
+							"raw": "http://localhost:8080/user",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"login"
+								"user"
 							]
 						}
 					},
@@ -31,11 +41,21 @@
 				{
 					"name": "Guardar Usuario",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImV4cCI6MTY5ODQyNzYxMCwicm9sZSI6IkFETUlOIiwibmFtZSI6ImFkbWluIn0.sAYQeg_F3IWMUtnybisNISGY3HZJo3b--CABdsxK-8c",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\"name\": \"pedro\",\r\n\"email\": \"pedro@mail.com\",\r\n\"pass\": \"pedro\", \r\n\"role\": \"EMPLOYEE\"\r\n}",
+							"raw": "{\r\n\"name\": \"Taringa\",\r\n\"email\": \"taringa_01@outlook.com\",\r\n\"pass\": \"taringa\", \r\n\"role\": \"ADMIN\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -57,8 +77,48 @@
 					"response": []
 				},
 				{
+					"name": "Obtener Usuario",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImV4cCI6MTY5ODI2Njg4OSwicm9sZSI6IkFETUlOIiwibmFtZSI6ImFkbWluIn0.6YpfBFZJTMRlCYUZEBNGyJC55M42DOiX4WbrlPCsEdU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/user/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Eliminar Usuario",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImV4cCI6MTY5ODE4ODUyNiwicm9sZSI6IkFETUlOIiwibmFtZSI6ImFkbWluIn0.rT64uhvV9XgkaGGBxgbKaVKCAlbuT6E0Qi9xiAHOvng",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
@@ -75,6 +135,45 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Actualizar Usuario",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImV4cCI6MTY5ODI2OTI2Mywicm9sZSI6IkFETUlOIiwibmFtZSI6ImFkbWluIn0.RNsIKLUm2d9vyp261vNqY-FJcHINej-IOjKZcviVhqo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"name\": \"pedro\",\r\n\"email\": \"pedro2@mail.com\",\r\n\"pass\": \"admin\", \r\n\"role\": \"ADMIN\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/user/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"3"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"description": "Ejemplo de raw sobre Guardar Usuarios:\n\n{\n\n\"name\": \"pedro\",\n\n\"email\": \"[pedro@mail.com](https://mailto:pedro@mail.com)\",\n\n\"pass\": \"pedro\", \"role\": \"ADMIN\"\n\n}\n\nLos demas endpoints unicamente necesitan de el BearerToken."
@@ -85,10 +184,28 @@
 				{
 					"name": "Obtener Animales",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImV4cCI6MTY5ODUwOTEyNSwicm9sZSI6IkFETUlOIiwibmFtZSI6ImFkbWluIn0.xD7aKPS27jvuiKKiTD9Bw1XF76nJVrZrJS6QSozFnz0",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:8080/animal",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"animal"
+							]
 						}
 					},
 					"response": []
@@ -96,6 +213,16 @@
 				{
 					"name": "Guardar Animal",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImV4cCI6MTY5ODMzMjEyMSwicm9sZSI6IkFETUlOIiwibmFtZSI6ImFkbWluIn0.G3f-nlsaEgHqwbGVzPfRTer5DpcbGUZhb1KCIcPw_ho",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -122,9 +249,19 @@
 					"response": []
 				},
 				{
-					"name": "Eliminar Animal",
+					"name": "Obtener Animal",
 					"request": {
-						"method": "DELETE",
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImV4cCI6MTY5ODMzMDUyMywicm9sZSI6IkFETUlOIiwibmFtZSI6ImFkbWluIn0.xCwYJCbLDrt_lMnHORn-ZifdHqY8CCr0ofjuuzgTHcQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
 						"header": [],
 						"url": {
 							"raw": "http://localhost:8080/animal/1",
@@ -140,6 +277,75 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Actualizar Animal",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImV4cCI6MTY5ODMzMTY3MSwicm9sZSI6IkFETUlOIiwibmFtZSI6ImFkbWluIn0.0xuG5rpwft0bEHVnCTYpdmxqa7YBbLZZGNuZT9_tUz4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Arto\",\r\n    \"zoneId\": 1,\r\n    \"speciesId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/animal/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"animal",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Animal",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImV4cCI6MTY5ODM0MDQ3Mywicm9sZSI6IkFETUlOIiwibmFtZSI6ImFkbWluIn0.jlufkcMgcEJLN9d5fGNFv-U4t01cpGBcP_yBICG6MDA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/animal/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"animal",
+								"4"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"description": "Ejemplo de raw sobre Guardar Animales:\n\n{\n\n\"name\": \"Arto\",\n\n\"zoneId\": 1,\n\n\"speciesId\": 1\n\n}\n\nLos demas endpoints unicamente necesitan de el BearerToken."
@@ -150,10 +356,28 @@
 				{
 					"name": "Obtener Especies",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImV4cCI6MTY5ODUwOTM3MCwicm9sZSI6IkFETUlOIiwibmFtZSI6ImFkbWluIn0._0TV71lOdM4R6XzEJDO23eM6_rge_Z1xTwI3-AKDsuU",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:8080/species",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"species"
+							]
 						}
 					},
 					"response": []
@@ -161,11 +385,21 @@
 				{
 					"name": "Guardar Especie",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImV4cCI6MTY5ODI3MjIwMCwicm9sZSI6IkFETUlOIiwibmFtZSI6ImFkbWluIn0.ywTN9onLYoqr6DMiz7Ho1saCfQijOJvNtohUTsHev1E",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Lagarto\",\r\n    \"zoneId\": 1\r\n}",
+							"raw": "{\r\n    \"name\": \"Selva\",\r\n    \"zoneId\": 3\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -187,9 +421,19 @@
 					"response": []
 				},
 				{
-					"name": "Eliminar Especie",
+					"name": "Obtener Especie",
 					"request": {
-						"method": "DELETE",
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImV4cCI6MTY5ODI2MTcxMCwicm9sZSI6IkFETUlOIiwibmFtZSI6ImFkbWluIn0.TmKdUnnXZ-YHwEw_5a88IboSn4UpfZievuXayz9J80Y",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
 						"header": [],
 						"url": {
 							"raw": "http://localhost:8080/species/1",
@@ -205,6 +449,75 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Actualizar Especie",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImV4cCI6MTY5ODI2Mzg1NSwicm9sZSI6IkFETUlOIiwibmFtZSI6ImFkbWluIn0.SWnjJeOOPtRZstdvRcD7EoqbRjqzjkq4NlBCTWqrG_E",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Modificada\",\r\n    \"zoneId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/species/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"species",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Especie",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImV4cCI6MTY5ODI2NDUxNSwicm9sZSI6IkFETUlOIiwibmFtZSI6ImFkbWluIn0.KPeqzFAhDxYQ6VGJ-MsBTCYwoT_ZkNqIm9HwSzzYgGs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/species/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"species",
+								"3"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"description": "Ejemplo de raw sobre Guardar Especies:\n\n{\n\n\"name\": \"Lagarto\",\n\n\"zoneId\": 1\n\n}\n\nLos demas endpoints unicamente necesitan de el BearerToken."
@@ -215,10 +528,28 @@
 				{
 					"name": "Obtener Zonas",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImV4cCI6MTY5ODI3MjIwMCwicm9sZSI6IkFETUlOIiwibmFtZSI6ImFkbWluIn0.ywTN9onLYoqr6DMiz7Ho1saCfQijOJvNtohUTsHev1E",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:8080/zone",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"zone"
+							]
 						}
 					},
 					"response": []
@@ -226,11 +557,21 @@
 				{
 					"name": "Guardar Zona",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImV4cCI6MTY5ODI1NjUwNSwicm9sZSI6IkFETUlOIiwibmFtZSI6ImFkbWluIn0.JhAi4bWfucvvjp-s_0buWR0ZwKF94ndZmxuj-Jo8X9g",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Reptiles\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Selva\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -252,10 +593,59 @@
 					"response": []
 				},
 				{
-					"name": "Eliminar Zona",
+					"name": "Obtener Zona",
 					"request": {
-						"method": "DELETE",
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImV4cCI6MTY5ODI1MzcwMCwicm9sZSI6IkFETUlOIiwibmFtZSI6ImFkbWluIn0.xvQ7deSLGDJoMfW4Fds-X_xtXm952mX86ts3e80sk4U",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
 						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/zone/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"zone",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Zona",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImV4cCI6MTY5ODI1NTUyNSwicm9sZSI6IkFETUlOIiwibmFtZSI6ImFkbWluIn0.PCQqtYXPLMcGgy7KrwKn2xkr2fdPwV-M64A3Hp9dAeQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Selva\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "http://localhost:8080/zone/1",
 							"protocol": "http",
@@ -270,6 +660,36 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Eliminar Zona",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImV4cCI6MTY5ODI1NjUwNSwicm9sZSI6IkFETUlOIiwibmFtZSI6ImFkbWluIn0.JhAi4bWfucvvjp-s_0buWR0ZwKF94ndZmxuj-Jo8X9g",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/zone/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"zone",
+								"3"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"description": "Ejemplo de raw sobre Guardar Zonas:\n\n{\n\n\"name\": \"Reptiles\"\n\n}\n\nLos demas endpoints unicamente necesitan de el BearerToken."
@@ -278,13 +698,76 @@
 			"name": "Comentarios",
 			"item": [
 				{
+					"name": "Obtener Todos los Comentarios",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImV4cCI6MTY5ODM1MDY4MCwicm9sZSI6IkFETUlOIiwibmFtZSI6ImFkbWluIn0.avPl4NlmdDfLkPIV3D9Jx1TH0pkuU7OFk4BEeYv42HI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/comment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"comment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Comentarios por Animal",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImV4cCI6MTY5ODMzNjg1OSwicm9sZSI6IkFETUlOIiwibmFtZSI6ImFkbWluIn0.4zIBKb_QFYaaNtpXBxiKMiTkpWy2B6MpmHxy_zbcUUc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "c",
+							"host": [
+								"c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Guardar Comentario",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImV4cCI6MTY5ODUwNzQ4Niwicm9sZSI6IkFETUlOIiwibmFtZSI6ImFkbWluIn0._PotjuM7Rrf3mqf7nkH-5HDlldvKgpBlSdKEnFNen7Q",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"author\": \"admin@mail.com\",\r\n    \"body\": \"Esto es un comentario\",\r\n    \"animalId\": 1\r\n}",
+							"raw": "{\r\n    \"body\": \"Recomiendo al lagarto\",\r\n    \"animalId\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -304,6 +787,75 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Actualizar Comentario",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImV4cCI6MTY5ODM1MzM1MSwicm9sZSI6IkFETUlOIiwibmFtZSI6ImFkbWluIn0.JnJwMHjUjjNE7eMYw4wshkAvQRFVbYNuKeCEJlyiivY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"body\": \"Esto es un comentario000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/comment/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"comment",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Comentario",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlbXBsb3llZUBtYWlsLmNvbSIsImV4cCI6MTY5ODM0MTExMywicm9sZSI6IkVNUExPWUVFIiwibmFtZSI6ImVtcGxveWVlIn0.sadVeG5sW8V9eB8o2Hqi9rlqk9efZXTuRp2WS58NKwc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/comment/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"comment",
+								"2"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"description": "Este es un ejemplo del raw para Guardar Comentario:  \n{    \n\n\"author\": \"admin@mail.com\",   \n\n\"body\": \"Esto es un comentario\",   \n\n\"animalId\": 1\n\n}"
@@ -312,13 +864,82 @@
 			"name": "Respuestas",
 			"item": [
 				{
+					"name": "Obtener Todas las Respuestas",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImV4cCI6MTY5ODM1MDY4MCwicm9sZSI6IkFETUlOIiwibmFtZSI6ImFkbWluIn0.avPl4NlmdDfLkPIV3D9Jx1TH0pkuU7OFk4BEeYv42HI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/replie",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"replie"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Respuestas por Comentario",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImV4cCI6MTY5ODM1MTQ1MSwicm9sZSI6IkFETUlOIiwibmFtZSI6ImFkbWluIn0.VE0Z3YQpmr25vu3Nk7fyWhcKLrer9JLTZRXhkWyyQeA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/replie/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"replie",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Guardar Respuesta",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImV4cCI6MTY5ODUwNzQ4Niwicm9sZSI6IkFETUlOIiwibmFtZSI6ImFkbWluIn0._PotjuM7Rrf3mqf7nkH-5HDlldvKgpBlSdKEnFNen7Q",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"author\": \"admin@mail.com\",\r\n    \"body\": \"Esto es la primera respuesta.\",\r\n    \"commentId\": 1\r\n}",
+							"raw": "{\r\n    \"body\": \"El lagarto es muy bueno\",\r\n    \"commentId\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -326,14 +947,83 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/response",
+							"raw": "http://localhost:8080/replie",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"response"
+								"replie"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Respuesta",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImV4cCI6MTY5ODM1MzM1MSwicm9sZSI6IkFETUlOIiwibmFtZSI6ImFkbWluIn0.JnJwMHjUjjNE7eMYw4wshkAvQRFVbYNuKeCEJlyiivY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"body\": \"Esto es la primera respuesta.222\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/replie/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"replie",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Respuesta",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImV4cCI6MTY5ODM1NDExNywicm9sZSI6IkFETUlOIiwibmFtZSI6ImFkbWluIn0.O0DatiKtXhX1k1HAxiCP874SY1cselo2ZV9xMPTHsUk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/replie/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"replie",
+								"1"
 							]
 						}
 					},
@@ -348,6 +1038,16 @@
 				{
 					"name": "Cantidad de animales por zona",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImV4cCI6MTY5ODUxMTQzNywicm9sZSI6IkFETUlOIiwibmFtZSI6ImFkbWluIn0.Y7o3mNOUCxckeXjFYe4jY3v3fc2FCBhHER_DOB32aSg",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -368,6 +1068,16 @@
 				{
 					"name": "Porcentaje de comentarios respondidos",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImV4cCI6MTY5ODUwNzQ4Niwicm9sZSI6IkFETUlOIiwibmFtZSI6ImFkbWluIn0._PotjuM7Rrf3mqf7nkH-5HDlldvKgpBlSdKEnFNen7Q",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -388,6 +1098,16 @@
 				{
 					"name": "Cantidad de animales por especie",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImV4cCI6MTY5ODUxMTEzMSwicm9sZSI6IkFETUlOIiwibmFtZSI6ImFkbWluIn0.TOJwjqJBoXNnIahKjk2b-s1I2pGs02EK0H8maSUla_U",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -404,6 +1124,100 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Obtener Animales por Fecha de Registro",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImV4cCI6MTY5ODQxOTA0MCwicm9sZSI6IkFETUlOIiwibmFtZSI6ImFkbWluIn0._r2AyoUiL38iaMx-gMK5KGT0wNfkFFJcv6fXSQhdeAY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/animal/by-date/2023-10-26",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"animal",
+								"by-date",
+								"2023-10-26"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Correo Respuesta de Comentario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"receiver\": \"taringa_01@outlook.com\",\r\n    \"emitterName\": \"Manuel\",\r\n    \"replie\": \"Esto es una respuesta a tu comentario, culaquier cosa no dudes en contactarme.\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/mail-replie-of-comment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"mail-replie-of-comment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Busqueda Global",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImV4cCI6MTY5ODUwODkwMSwicm9sZSI6IkFETUlOIiwibmFtZSI6ImFkbWluIn0.AX4QuU4fjJ0-ClmbYh9Yt8lWJIxESMWlDczK0eTwYtk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/search?query=arto",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"search"
+							],
+							"query": [
+								{
+									"key": "query",
+									"value": "arto"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -413,6 +1227,16 @@
 				{
 					"name": "Loguearse como administrador",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImV4cCI6MTY5ODQxNjg0MCwicm9sZSI6IkFETUlOIiwibmFtZSI6ImFkbWluIn0.i137CT27iCT3iBadeI7b2ZZIIx2V_MsBDF-LqGFRJCg",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -446,6 +1270,34 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\r\n    \"email\": \"employee@mail.com\",\r\n    \"password\": \"employee\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Loguearse como Taringa",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"taringa_01@outlook.com\",\r\n    \"password\": \"taringa\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

@@ -14,3 +14,16 @@ Script.sql que es el script para crear las bases de datos para cualquier fallo q
 ERD,jpg que es el modelo relacional de mi solución,
 la documentación de PostMan.
 
+
+Si se quiere usar el microservicio para enviar correos electronicos a los usuarios que se le han respondido los mensajes es necesario ejecutar el archivo microservicio.py en la raíz
+
+NOTA:
+
+tener en cuenta que para ejecutar microservicio.py se deben instalar las librerías de Flask y pymongo
+
+comandos para instalar las liberías
+
+pip install Flask
+pip install pymongo
+
+
