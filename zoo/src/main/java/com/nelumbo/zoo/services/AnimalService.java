@@ -32,5 +32,7 @@ public interface AnimalService {
 
     void deleteAnimal (Long id);
 
+    List<AnimalDTO> searchAnimals(String query);
+
     void createAnimals();
 }

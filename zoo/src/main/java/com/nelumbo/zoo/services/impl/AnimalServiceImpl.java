@@ -48,6 +48,7 @@ public class AnimalServiceImpl implements AnimalService {
                         AnimalDTO.builder()
                                 .id(animalEntity.getId())
                                 .name(animalEntity.getName())
+                                .date(animalEntity.getDate())
                                 .speciesId(animalEntity.getSpeciesId())
                                 .zoneId(animalEntity.getZoneId())
                                 .comments(animalEntity.getComments())
@@ -66,6 +67,7 @@ public class AnimalServiceImpl implements AnimalService {
             return AnimalDTO.builder()
                     .id(animalEntity.getId())
                     .name(animalEntity.getName())
+                    .date(animalEntity.getDate())
                     .speciesId(animalEntity.getSpeciesId())
                     .zoneId(animalEntity.getZoneId())
                     .comments(animalEntity.getComments())
@@ -171,6 +173,22 @@ public class AnimalServiceImpl implements AnimalService {
         } else {
             throw new NoSuchElementException("Animal no encontrado.");
         }
+    }
+
+    public List<AnimalDTO> searchAnimals(String query) {
+        List<AnimalEntity> animalEntities = animalRepository.findByNameContaining(query);
+        List<AnimalDTO> animalDTOS = animalEntities.stream()
+                .map(animalEntity ->
+                        AnimalDTO.builder()
+                                .id(animalEntity.getId())
+                                .name(animalEntity.getName())
+                                .date(animalEntity.getDate())
+                                .speciesId(animalEntity.getSpeciesId())
+                                .zoneId(animalEntity.getZoneId())
+                                .build()
+                )
+                .collect(Collectors.toList());
+        return (ArrayList<AnimalDTO>) animalDTOS;
     }
 
     public void createAnimals() {

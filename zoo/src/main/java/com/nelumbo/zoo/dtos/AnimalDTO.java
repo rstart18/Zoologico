@@ -12,6 +12,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -34,11 +35,11 @@ public class AnimalDTO {
     @Min(value = 1, message = "El campo zoneId debe ser mayor a cero.")
     private Long zoneId;
 
-    private Date date;
+    private LocalDateTime date;
 
     @PrePersist
     protected void onCreate() {
-        date = new Date();
+        date = LocalDateTime.now();
     }
 
     @JsonInclude(JsonInclude.Include.NON_NULL)

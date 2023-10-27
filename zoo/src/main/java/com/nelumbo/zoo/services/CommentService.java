@@ -18,6 +18,8 @@ public interface CommentService {
 
     void deleteComment(Long commentId);
 
+    List<CommentDTO> searchComments(String query);
+
     List<CommentEntity> getCommentsWithReplies();
 
     double calculatePercentageCommentsWithReplies();

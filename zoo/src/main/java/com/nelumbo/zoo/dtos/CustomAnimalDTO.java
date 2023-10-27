@@ -7,7 +7,6 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-
 public class CustomAnimalDTO {
     private String animal;
     private String zone;

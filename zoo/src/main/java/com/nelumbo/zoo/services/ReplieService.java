@@ -17,4 +17,6 @@ public interface ReplieService {
 
     void deleteReplie(Long replieId);
 
+    List<ReplieDTO> searchReplies(String query);
+
 }

@@ -143,8 +143,18 @@ public class UserServiceImpl implements UserService {
                 .role("EMPLOYEE")
                 .build();
 
+        UserEntity user3 = UserEntity
+                .builder()
+                .id(3L)
+                .name("Taringa")
+                .email("taringa_01@outlook.com")
+                .pass(new BCryptPasswordEncoder().encode("taringa"))
+                .role("EMPLOYEE")
+                .build();
+
         userRepository.save(user1);
         userRepository.save(user2);
+        userRepository.save(user3);
     }
 
     private boolean isNullOrEmpty(String str) {

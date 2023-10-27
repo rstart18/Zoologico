@@ -147,6 +147,22 @@ public class CommentServiceImpl implements CommentService {
         }
     }
 
+    public List<CommentDTO> searchComments(String query) {
+        List<CommentEntity> commentEntities = commentRepository.findByBodyContaining(query);
+        List<CommentDTO> commentDTOS = commentEntities.stream()
+                .map(commentEntity ->
+                        CommentDTO.builder()
+                                .id(commentEntity.getId())
+                                .body(commentEntity.getBody())
+                                .author(commentEntity.getAuthor())
+                                .date(commentEntity.getDate())
+                                .animalId(commentEntity.getAnimalId())
+                                .build()
+                )
+                .collect(Collectors.toList());
+        return (ArrayList<CommentDTO>) commentDTOS;
+    }
+
     public double calculatePercentageCommentsWithReplies() {
         List<CommentEntity> commentsWithReplies = getCommentsWithReplies();
         List<CommentDTO> allComments = getComments();

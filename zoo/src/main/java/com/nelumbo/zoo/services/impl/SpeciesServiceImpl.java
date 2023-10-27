@@ -115,6 +115,20 @@ public class SpeciesServiceImpl implements SpeciesService {
         }
     }
 
+    public List<SpeciesDTO> searchSpecies(String query) {
+        List<SpeciesEntity> speciesEntities = speciesRepository.findByNameContaining(query);
+        List<SpeciesDTO> speciesDTOs = speciesEntities.stream()
+                .map(speciesEntity ->
+                        SpeciesDTO.builder()
+                                .id(speciesEntity.getId())
+                                .name(speciesEntity.getName())
+                                .zoneId(speciesEntity.getZoneId())
+                                .build()
+                )
+                .collect(Collectors.toList());
+        return (ArrayList<SpeciesDTO>) speciesDTOs;
+    }
+
     public Map<SpeciesEntity, Long> countAnimalsBySpecies() {
         List<SpeciesEntity> speciesList = (List<SpeciesEntity>) speciesRepository.findAll();
         Map<SpeciesEntity, Long> animalCounts = new HashMap<>();

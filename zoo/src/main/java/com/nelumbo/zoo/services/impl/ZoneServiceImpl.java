@@ -103,6 +103,19 @@ public class ZoneServiceImpl implements ZoneService {
         }
     }
 
+    public List<ZoneDTO> searchZones(String query) {
+        List<ZoneEntity> zoneEntities = zoneRepository.findByNameContaining(query);
+        List<ZoneDTO> zoneDTOs = zoneEntities.stream()
+                .map(zoneEntity ->
+                        ZoneDTO.builder()
+                                .id(zoneEntity.getId())
+                                .name(zoneEntity.getName())
+                                .build()
+                )
+                .collect(Collectors.toList());
+        return (ArrayList<ZoneDTO>) zoneDTOs;
+    }
+
     public Map<ZoneEntity, Long> countAnimalsByZone() {
         List<ZoneEntity> zones = (List<ZoneEntity>) zoneRepository.findAll();
 

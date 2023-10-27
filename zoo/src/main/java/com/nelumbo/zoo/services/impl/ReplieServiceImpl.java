@@ -5,7 +5,9 @@ import com.nelumbo.zoo.entities.CommentEntity;
 import com.nelumbo.zoo.entities.ReplieEntity;
 import com.nelumbo.zoo.repositories.CommentRepository;
 import com.nelumbo.zoo.repositories.ReplieRepository;
+import com.nelumbo.zoo.security.UserDetailsImpl;
 import com.nelumbo.zoo.services.ReplieService;
+import com.nelumbo.zoo.utils.EmailReplieOfComment;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
@@ -18,8 +20,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @Service
 public class ReplieServiceImpl implements ReplieService {
@@ -67,11 +67,14 @@ public class ReplieServiceImpl implements ReplieService {
     public ReplieDTO saveReplie(ReplieDTO replieDTO) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if (principal instanceof UserDetails) {
-            UserDetails userDetails = (UserDetails) principal;
-            String email = userDetails.getUsername();
-            replieDTO.setAuthor(email);
+        if (!(principal instanceof UserDetails)) {
+            throw new IllegalStateException("Error al obtener el usuario.");
         }
+
+        UserDetailsImpl userDetailsImpl = (UserDetailsImpl) principal;
+        String email = userDetailsImpl.getUsername();
+        String name = userDetailsImpl.getName();
+        replieDTO.setAuthor(email);
 
         if (replieDTO.getCommentId() == null) {
             throw new IllegalArgumentException("El campo commentId es requerido.");
@@ -80,6 +83,7 @@ public class ReplieServiceImpl implements ReplieService {
         Optional<CommentEntity> commentEntityOptional = commentRepository.findById(replieDTO.getCommentId());
 
         if (commentEntityOptional.isPresent()) {
+            String receiver = commentEntityOptional.get().getAuthor();
             ReplieEntity replieEntity = ReplieEntity
                     .builder()
                     .id(replieDTO.getId())
@@ -89,6 +93,9 @@ public class ReplieServiceImpl implements ReplieService {
                     .commentId(replieDTO.getCommentId())
                     .build();
             replieRepository.save(replieEntity);
+
+            EmailReplieOfComment.sendEmail(receiver, name, replieEntity.getBody());
+
             replieDTO.setId(replieEntity.getId());
             replieDTO.setDate(replieEntity.getDate());
             return replieDTO;
@@ -152,6 +159,22 @@ public class ReplieServiceImpl implements ReplieService {
                 throw new NoSuchElementException("Respuesta no encontrada.");
             }
         }
+    }
+
+    public List<ReplieDTO> searchReplies(String query) {
+        List<ReplieEntity> replieEntities = replieRepository.findByBodyContaining(query);
+        List<ReplieDTO> replieDTOS = replieEntities.stream()
+                .map(replieEntity ->
+                        ReplieDTO.builder()
+                                .id(replieEntity.getId())
+                                .body(replieEntity.getBody())
+                                .author(replieEntity.getAuthor())
+                                .date(replieEntity.getDate())
+                                .commentId(replieEntity.getCommentId())
+                                .build()
+                )
+                .collect(Collectors.toList());
+        return (ArrayList<ReplieDTO>) replieDTOS;
     }
 
 }
