@@ -19,7 +19,7 @@ public class UserEntity {
     private Long id;
 
     private String name;
-    @Email
+    @Email(message = "El correo electrónico no es válido.")
     private String email;
     private String pass;
     private String role;

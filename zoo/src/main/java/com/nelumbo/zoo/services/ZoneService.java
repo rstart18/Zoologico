@@ -1,5 +1,6 @@
 package com.nelumbo.zoo.services;
 
+import com.nelumbo.zoo.dtos.ZoneAnimalCountDTO;
 import com.nelumbo.zoo.dtos.ZoneDTO;
 import com.nelumbo.zoo.entities.ZoneEntity;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public interface ZoneService {
 
     public List<ZoneDTO> searchZones(String query);
 
-    Map<ZoneEntity, Long> countAnimalsByZone();
+    List<ZoneAnimalCountDTO> countAnimalsByZone();
 
     void createZone();
 }

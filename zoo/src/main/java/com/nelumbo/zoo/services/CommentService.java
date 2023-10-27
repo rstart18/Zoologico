@@ -1,6 +1,7 @@
 package com.nelumbo.zoo.services;
 
 import com.nelumbo.zoo.dtos.CommentDTO;
+import com.nelumbo.zoo.dtos.PercentRepliedDTO;
 import com.nelumbo.zoo.entities.CommentEntity;
 import org.springframework.stereotype.Service;
 
@@ -22,5 +23,5 @@ public interface CommentService {
 
     List<CommentEntity> getCommentsWithReplies();
 
-    double calculatePercentageCommentsWithReplies();
+    PercentRepliedDTO calculatePercentageCommentsWithReplies();
 }

@@ -56,22 +56,6 @@ public class ZoneController {
     @GetMapping("/animal-count")
     @PreAuthorize("hasRole('ADMIN')")
     public List<ZoneAnimalCountDTO> getAnimalCountByZone() {
-        List<ZoneAnimalCountDTO> animalCountDTOs = new ArrayList<>();
-
-        Map<ZoneEntity, Long> animalCountByZone = zoneService.countAnimalsByZone();
-
-        for (Map.Entry<ZoneEntity, Long> entry : animalCountByZone.entrySet()) {
-            ZoneEntity zone = entry.getKey();
-            Long animalCount = entry.getValue();
-
-            ZoneAnimalCountDTO dto = new ZoneAnimalCountDTO();
-            dto.setZoneId(zone.getId());
-            dto.setZoneName(zone.getName());
-            dto.setAnimalCount(animalCount);
-
-            animalCountDTOs.add(dto);
-        }
-
-        return animalCountDTOs;
+        return zoneService.countAnimalsByZone();
     }
 }

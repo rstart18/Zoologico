@@ -32,7 +32,9 @@ public class SpeciesController {
 
     @PostMapping()
     @PreAuthorize("hasRole('ADMIN')")
-    public SpeciesDTO saveASpecies(@RequestBody @Valid SpeciesDTO species) { return this.speciesService.saveASpecies(species); }
+    public SpeciesDTO saveASpecies(@RequestBody @Valid SpeciesDTO species) {
+        return this.speciesService.saveASpecies(species);
+    }
 
     @PutMapping(path = "/{id}")
     @PreAuthorize("hasRole('ADMIN')")
@@ -47,18 +49,7 @@ public class SpeciesController {
 
     @GetMapping("/animal-count")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<SpeciesAnimalCountDTO>> getAnimalCountBySpecies() {
-        Map<SpeciesEntity, Long> animalCounts = speciesService.countAnimalsBySpecies();
-
-        List<SpeciesAnimalCountDTO> responseDTOs = animalCounts.entrySet().stream()
-                .map(entry -> {
-                    SpeciesAnimalCountDTO dto = new SpeciesAnimalCountDTO();
-                    dto.setSpeciesName(entry.getKey().getName());
-                    dto.setAnimalCount(entry.getValue());
-                    return dto;
-                })
-                .collect(Collectors.toList());
-
-        return ResponseEntity.ok(responseDTOs);
+    public List<SpeciesAnimalCountDTO> getAnimalCountBySpecies() {
+        return speciesService.countAnimalsBySpecies();
     }
 }

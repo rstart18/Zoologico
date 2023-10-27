@@ -26,14 +26,12 @@ public class SearchController {
     @GetMapping()
     @PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE')")
     public SearchResultsDTO search(@RequestParam String query) {
-        SearchResultsDTO search = new SearchResultsDTO();
-
-        search.setZones(zoneService.searchZones(query));
-        search.setSpecies(speciesService.searchSpecies(query));
-        search.setAnimals(animalService.searchAnimals(query));
-        search.setComments(commentService.searchComments(query));
-        search.setReplies(replieService.searchReplies(query));
-
-        return search;
+        return SearchResultsDTO.builder()
+                .zones(zoneService.searchZones(query))
+                .species(speciesService.searchSpecies(query))
+                .animals(animalService.searchAnimals(query))
+                .comments(commentService.searchComments(query))
+                .replies(replieService.searchReplies(query))
+                .build();
     }
 }

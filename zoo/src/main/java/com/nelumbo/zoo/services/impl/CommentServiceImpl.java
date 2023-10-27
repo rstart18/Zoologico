@@ -1,6 +1,7 @@
 package com.nelumbo.zoo.services.impl;
 
 import com.nelumbo.zoo.dtos.CommentDTO;
+import com.nelumbo.zoo.dtos.PercentRepliedDTO;
 import com.nelumbo.zoo.entities.AnimalEntity;
 import com.nelumbo.zoo.entities.CommentEntity;
 import com.nelumbo.zoo.repositories.AnimalRepository;
@@ -163,16 +164,18 @@ public class CommentServiceImpl implements CommentService {
         return (ArrayList<CommentDTO>) commentDTOS;
     }
 
-    public double calculatePercentageCommentsWithReplies() {
+    public PercentRepliedDTO calculatePercentageCommentsWithReplies() {
         List<CommentEntity> commentsWithReplies = getCommentsWithReplies();
         List<CommentDTO> allComments = getComments();
 
         if (allComments.isEmpty()) {
-            return 0.0;
+            return PercentRepliedDTO.builder().percent(0.0).build();
         }
 
         double percentage = ((double) commentsWithReplies.size() / allComments.size()) * 100.0;
 
-        return percentage;
+        return PercentRepliedDTO.builder()
+                .percent(percentage)
+                .build();
     }
 }

@@ -1,5 +1,6 @@
 package com.nelumbo.zoo.services;
 
+import com.nelumbo.zoo.dtos.SpeciesAnimalCountDTO;
 import com.nelumbo.zoo.dtos.SpeciesDTO;
 import com.nelumbo.zoo.entities.SpeciesEntity;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public interface SpeciesService {
 
     List<SpeciesDTO> searchSpecies(String query);
 
-    Map<SpeciesEntity, Long> countAnimalsBySpecies();
+    List<SpeciesAnimalCountDTO> countAnimalsBySpecies();
 
     void createSpecies();
 }

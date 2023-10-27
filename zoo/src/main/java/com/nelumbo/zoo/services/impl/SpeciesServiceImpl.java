@@ -1,5 +1,6 @@
 package com.nelumbo.zoo.services.impl;
 
+import com.nelumbo.zoo.dtos.SpeciesAnimalCountDTO;
 import com.nelumbo.zoo.dtos.SpeciesDTO;
 import com.nelumbo.zoo.entities.SpeciesEntity;
 import com.nelumbo.zoo.repositories.SpeciesRepository;
@@ -129,7 +130,7 @@ public class SpeciesServiceImpl implements SpeciesService {
         return (ArrayList<SpeciesDTO>) speciesDTOs;
     }
 
-    public Map<SpeciesEntity, Long> countAnimalsBySpecies() {
+    public List<SpeciesAnimalCountDTO> countAnimalsBySpecies() {
         List<SpeciesEntity> speciesList = (List<SpeciesEntity>) speciesRepository.findAll();
         Map<SpeciesEntity, Long> animalCounts = new HashMap<>();
 
@@ -138,7 +139,16 @@ public class SpeciesServiceImpl implements SpeciesService {
             animalCounts.put(species, count);
         }
 
-        return animalCounts;
+        List<SpeciesAnimalCountDTO> responseDTOs = animalCounts.entrySet().stream()
+                .map(entry -> {
+                    SpeciesAnimalCountDTO dto = new SpeciesAnimalCountDTO();
+                    dto.setSpeciesName(entry.getKey().getName());
+                    dto.setAnimalCount(entry.getValue());
+                    return dto;
+                })
+                .collect(Collectors.toList());
+
+        return responseDTOs;
     }
 
     public void createSpecies() {

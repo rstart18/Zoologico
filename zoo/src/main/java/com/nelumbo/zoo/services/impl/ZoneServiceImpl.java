@@ -1,5 +1,6 @@
 package com.nelumbo.zoo.services.impl;
 
+import com.nelumbo.zoo.dtos.ZoneAnimalCountDTO;
 import com.nelumbo.zoo.dtos.ZoneDTO;
 import com.nelumbo.zoo.entities.ZoneEntity;
 import com.nelumbo.zoo.repositories.ZoneRepository;
@@ -116,14 +117,27 @@ public class ZoneServiceImpl implements ZoneService {
         return (ArrayList<ZoneDTO>) zoneDTOs;
     }
 
-    public Map<ZoneEntity, Long> countAnimalsByZone() {
+    public List<ZoneAnimalCountDTO> countAnimalsByZone() {
         List<ZoneEntity> zones = (List<ZoneEntity>) zoneRepository.findAll();
-
-        return zones.stream()
+        List<ZoneAnimalCountDTO> animalCountDTOs = new ArrayList<>();
+        Map<ZoneEntity, Long> animalCountByZone = zones.stream()
                 .collect(Collectors.toMap(
                         zone -> zone,
                         zone -> this.animalService.countAnimalsInZone(zone.getId())
                 ));
+
+        for (Map.Entry<ZoneEntity, Long> entry : animalCountByZone.entrySet()) {
+            ZoneEntity zone = entry.getKey();
+            Long animalCount = entry.getValue();
+
+            ZoneAnimalCountDTO dto = new ZoneAnimalCountDTO();
+            dto.setZoneId(zone.getId());
+            dto.setZoneName(zone.getName());
+            dto.setAnimalCount(animalCount);
+
+            animalCountDTOs.add(dto);
+        }
+        return animalCountDTOs;
     }
 
     public void createZone() {

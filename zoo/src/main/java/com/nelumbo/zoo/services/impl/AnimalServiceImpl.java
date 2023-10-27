@@ -29,7 +29,7 @@ public class AnimalServiceImpl implements AnimalService {
     SpeciesRepository speciesRepository;
 
 
-    public Long countAnimalsBySpecies(long zoneId) { return countAnimalsInZone(zoneId); }
+    public Long countAnimalsBySpecies(long speciesId) { return animalRepository.countBySpeciesId(speciesId); }
 
     public boolean areAnimalsInZone(Long zoneId) {
         return animalRepository.existsByZoneId(zoneId);

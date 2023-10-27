@@ -1,6 +1,7 @@
 package com.nelumbo.zoo.controllers;
 
 import com.nelumbo.zoo.dtos.CommentDTO;
+import com.nelumbo.zoo.dtos.PercentRepliedDTO;
 import com.nelumbo.zoo.services.CommentService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,9 @@ public class CommentController {
 
     @PostMapping()
     @PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE')")
-    public CommentDTO saveComment(@RequestBody @Valid CommentDTO comment) { return this.commentService.saveComment(comment); }
+    public CommentDTO saveComment(@RequestBody @Valid CommentDTO comment) {
+        return this.commentService.saveComment(comment);
+    }
 
     @PutMapping(path = "/{commentId}")
     @PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE')")
@@ -49,8 +52,7 @@ public class CommentController {
 
     @GetMapping("/percentage-with-replies")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Double> getPercentageCommentsWithReplies() {
-        double percentage = commentService.calculatePercentageCommentsWithReplies();
-        return ResponseEntity.ok(percentage);
+    public PercentRepliedDTO getPercentageCommentsWithReplies() {
+        return commentService.calculatePercentageCommentsWithReplies();
     }
 }
